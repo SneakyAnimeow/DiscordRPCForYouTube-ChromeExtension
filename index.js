@@ -47,22 +47,12 @@ chrome.runtime.onConnect.addListener(port => {
 
 setInterval(() => {
   chrome.tabs.query({audible: true, muted: false}, (tabs) => {
-    let author = "";
-    let title = tabs[0].title.replace("- YouTube", "");
-
-    if(title.includes("-")){
-      author = title.split(/-(.*)/s)[0];
-      title = title.split(/-(.*)/s)[1];
-    }
-
     fetch('http://localhost:36789/api/presence/post', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        author: author,
-        title: title,
         link: tabs[0].url,
       }),
     });
